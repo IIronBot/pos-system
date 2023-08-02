@@ -1,0 +1,67 @@
+.orderItem {
+    display: flex;
+    justify-content: space-around;
+}
+
+.order {
+    height: auto;
+    min-height: 100px;
+    width: 100%;
+    border: white solid 1px;
+    display: flex;
+    padding: 20px 10px 20px 10px;
+}
+.order div {
+    width: 33%;
+}
+.order p {
+    margin: 10px 0px 10px 0px;
+    text-align:center;
+}
+
+.orderValue {
+    position:relative;
+    text-align: center;
+    /* top: 40px */
+}
+
+
+.orderRight p {
+    margin-bottom: 40px;
+
+}
+
+.status {
+    cursor: pointer;
+}
+
+.statusChange{
+    opacity: 0%;
+    transition: all ease 0.25s;
+    list-style-type: none;
+    position: relative;
+    bottom: 20px;
+    height: 0px;
+}
+
+.statusChange.active {
+    opacity: 100%;
+    list-style-type: none;
+    bottom: 20px;
+    margin-bottom: 10px;
+    height: auto;
+
+}
+
+.statusChange li {
+    margin-bottom: 10px;
+
+}
+
+
+.X {
+    position: relative;
+    bottom: 10px;
+    right: 10px;
+    cursor: pointer;
+}

@@ -1,0 +1,59 @@
+
+.menuItem > * {
+  position: relative;
+  top: 25%;
+}
+.menuItem {
+    width: 150px;
+    height: 150px;
+    border: solid 1px black;
+    margin: 25px;
+    border-radius: 5px;
+    color: black;
+    background-color: white;
+    text-align: center;
+    box-shadow: 10px 8px 5px 0px rgba(0,0,0,0.75);
+    
+}
+
+.menuItem p {
+    font-size: 16px;
+    margin: 5px 0px 5px 0px;
+    
+}
+.menuItemName {
+  width: 80%;
+  left: 10%;
+}
+.menuItem button {
+  height: 25px;
+  width: 30px;
+  cursor: pointer;
+  background-color: var(--secondary-color);
+  border: none;
+  border-radius: 5px;
+  transition: ease-in-out 0.3s;
+  color:gray;
+}
+
+.menuItem button:hover {
+  background-color: var(--primary-color);
+  
+}
+.count  {
+  display: inline;
+  position: relative;
+  left: 15px;
+}
+
+.countInput {
+  opacity: 0;
+  width: 60px;
+  height: 16px;
+  position: relative;
+
+}
+
+.countInput:focus {
+  outline: none;
+}

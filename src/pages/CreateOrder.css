@@ -1,0 +1,60 @@
+.createOrderPage {
+    background-color: var(--primary-color);
+    color: white;
+    height:fit-content;
+}
+.createOrderPage h1 {
+    text-align: center;
+    padding: 40px 0px 30px 0px;
+}
+
+
+.menuItemContainer {
+    display: flex;
+    flex-wrap: wrap;
+    height: fit-content;
+    margin: 20px 0px 50px 0px;
+}
+
+
+.filterOptions {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+
+    
+}
+.filterOptions li {
+    list-style-type: none;
+    margin: 0px 10px 0px 10px;
+    box-shadow: 10px 8px 5px 0px rgba(0,0,0,0.75);
+    max-height: 30px;
+
+}
+
+.filterOptions button {
+    border-radius: 5px;
+    border: solid 1px black;
+    background-color: white;
+    cursor: pointer;
+    padding: 8px 10px;
+    max-height: 40px;
+    font-size: 14px;
+    /* position: relative; */
+}
+.filterOptions button:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.2); 
+    transition: all ease 0.5s;
+}
+
+@media(max-width: 950px) {
+
+    .filterOptions button {
+        box-shadow: 10px 0px 5px 0px rgba(0,0,0,0.74);
+    }
+    .filterOptions {
+        height: 100px;
+    }
+}

@@ -1,0 +1,19 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+
+}
+
+:root {
+  --primary-color: rgb(43, 42, 42);
+  --secondary-color: #f7e7ce;
+}
+
+.backArrow {
+  color:white;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  height: auto;
+  width: 25px;
+}

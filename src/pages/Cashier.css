@@ -1,0 +1,31 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.cashier {
+    background-color: var(--primary-color);
+    color: white;
+    height:800vh;
+    text-align: center;
+}
+.cashier h1 {
+    padding-top: 20px;
+}
+
+.orderButton {
+    height: 50px;
+    width: 150px;
+    border-radius: 5px;
+    border: solid 1px black;
+    background-color:white;
+    position: absolute;
+    right: 100px;
+    top: 100px;
+    transition: background-color ease 0.5s;
+}
+
+.orderButton:hover {
+    background-color: var(--secondary-color);
+    cursor: pointer;
+}

@@ -1,0 +1,32 @@
+.jobchoice {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    background-color: var(--primary-color);
+    
+}
+.jobchoice a {
+    text-decoration: none;
+    color: black;
+
+}
+
+.jobchoice button {
+    background-color: transparent;
+    border-radius: 5px;
+    border: solid 1px white;
+    height: 75px;
+    width: 200px;
+    cursor: pointer;
+    margin: 0px 25px 0px 25px;
+    transition: all ease 0.5s;
+    color:white;
+}
+
+.jobchoice button:hover {
+    background-color: var(--secondary-color);
+    color:black;
+    
+}
