@@ -12,18 +12,23 @@ const {noteRender, setNoteRender} = useContext(menuContext)
 const run = () => {
   if(noteRef.current){
   setNoteValue(noteRef.current.value) 
-  console.log(noteValue)
   }
 }
 useEffect(() => {
   run()
 }, [noteRef])
+
   return (
     <div >
       <Note className='noteIcon' onClick={() => {
         setNoteRender(!noteRender)
       }}/>
-      {noteRender && <div className='notepad'><p >Note</p><textarea value = {noteValue} onChange={() => run()} ref ={noteRef}></textarea></div>}
+      {noteRender && 
+      <div className='notepad'>
+          <p>Note</p>
+          <textarea value = {noteValue} onChange={() => run()} ref ={noteRef}>
+          </textarea>
+        </div>}
     </div>
   )
 }

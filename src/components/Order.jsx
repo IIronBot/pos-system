@@ -76,7 +76,6 @@ export function Order(prop) {
       </div>
       <div className ='foodItems'>
         <p>Order Number: {editedData && orderCount}</p>
-
       {editedData && editedData.map((item, index) => {
                 var count = item.split(':')[1];
                 var id = item.split(':')[0];
