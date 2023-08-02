@@ -16,7 +16,7 @@ function App() {
           <Routes>
             <Route path='/' element = {<JobChoice />} />
             <Route path='/cashier' element = {<Cashier />} /> 
-              <Route path ='/order' element = {<CreateOrder />}/> 
+            <Route path ='/order' element = {<CreateOrder />}/> 
             <Route path ='/cook' element = {<Cook />}/>
 
           </Routes>
