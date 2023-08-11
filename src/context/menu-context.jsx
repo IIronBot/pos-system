@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import Airtable from 'airtable'
 import { menuContext } from './exportContext';
+import { db } from "../firebase-config,js";
+import {collection, getDocs} from 'firebase/firestore';
 
 const base = new Airtable({apiKey: 'keyJR9DzhDs8ARtft'}).base('app8oEp5f2hwX1CkP');
 
@@ -15,10 +17,11 @@ const getDefaultCart = () => {
 
 
 export function MenuContextProvider(props) {
-  const [data, setData] = useState({})
+  const [menuData, setMenuData] = useState(null)
   const [cartItems, setCartItems] = useState(getDefaultCart())
   const [cartItemCount, setCartItemCount] = useState()
   const [noteRender, setNoteRender] = useState(false);
+  const menuRef = collection(db, 'Menu')
 
   
   function addToCart(itemId){
@@ -36,31 +39,20 @@ export function MenuContextProvider(props) {
     setCartItems((prev) => ({ ...prev, [itemId]: newAmount }));
   };
 
-
-
   useEffect(() => {
-    base('Menu').select({
-      maxRecords: 40,
-      view: "Grid view",
-      fields: ['Name', 'Price', 'Category', 'id']
-  }).eachPage(function page(records, fetchNextPage) {
-      records.forEach(function(record, index) {
-        records[index] = record
-      });
-  setData(records)
+    const getMenu = async () => {
+      const allDocs = await getDocs(menuRef)
+      const unsortedMenu = allDocs.docs.map((doc) => ({ ...doc.data(), id: doc.id}))
+      setMenuData(unsortedMenu.sort((a,b) => a.id - b.id ))
 
-      // To fetch the next page of records, call `fetchNextPage`.
-      // If there are more records, `page` will get called again.
-      // If there are no more records, `done` will get called.
-      fetchNextPage();
-  }, function done(err) {
-      if (err) { console.error(err); return; }
-  });
-
+  }
+  getMenu()
+  
   }, [])
+
   const contextvalue = {
-    data,
-    setData,
+    menuData,
+    setMenuData,
     base,
     setCartItems,
     cartItems,

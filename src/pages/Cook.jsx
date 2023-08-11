@@ -1,5 +1,5 @@
 import {useContext, useEffect} from 'react'
-import { orderContext } from '../context/exportContext'
+import { menuContext, orderContext } from '../context/exportContext'
 import OrdersBlock from '../components/OrdersBlock'
 import { BackArrow } from '../components/backArrow'
 import './Cook.css'
@@ -12,7 +12,15 @@ function Cook() {
   return (
     <div className='cook'>
       <BackArrow data = {''} />
-        {orders && <OrdersBlock />}
+      {/* {menuData&& data.map((item, index) => {
+        return(
+        <h1 key = {index}>
+          Name: {item.name} 
+          </h1>)
+        }
+        )} */}
+        <p>Orders: {orders[0] && orders[0].ids}</p>
+        {orders != {} && <OrdersBlock />}
     </div>
   )
 }

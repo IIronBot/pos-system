@@ -1,0 +1,16 @@
+import { initializeApp } from "firebase/app";
+import {getFirestore} from '@firebase/firestore'
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_APIKEY,
+  authDomain: "pos-database-ffcb1.firebaseapp.com",
+  projectId: "pos-database-ffcb1",
+  storageBucket: "pos-database-ffcb1.appspot.com",
+  messagingSenderId: "520817305347",
+  appId: import.meta.env.VITE_APPID,
+  measurementId: "G-VR5NPQXCYN"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+export const db = getFirestore(app)

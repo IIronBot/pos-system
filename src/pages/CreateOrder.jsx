@@ -7,33 +7,35 @@ import { BackArrow } from '../components/backArrow';
 import { NoteEditor } from '../components/NoteEditor';
 
 export const CreateOrder = () => {
-  const {buildOrderData, postOrder, orderCount, noteValue, setNoteValue} = useContext(orderContext)
-  const {data, cartItems, setNoteRender} = useContext(menuContext)
+  const {buildOrderData, postOrder, orderNum, noteValue, setNoteValue} = useContext(orderContext)
+  const {menuData, cartItems, setNoteRender} = useContext(menuContext)
   const [filter, setFilter] = useState()
  
   let menuItemList = [];
   useEffect(() => {
-    for(let i = 0; i < data.length; i++) {
-      if(data[i].fields) {
-        menuItemList.push(<MenuItem key ={i} data = {data[i]?.fields} />)
+    if(!menuData) return
+    for(let i = 0; i < menuData.length; i++) {
+      if(menuData[i]) {
+        menuItemList.push(<MenuItem key ={i} data = {menuData[i]} />)
 
       }
     } 
 
-  }, [data])
+  }, [menuData])
 
 
 const renderMenuItems = useCallback(() => {
     menuItemList = []
-    for(let i = 0; i < data.length; i++) {
+    if(!menuData) return
+    for(let i = 0; i < menuData.length; i++) {
       // console.log(data[i]?.fields.Category)
       // console.log("filter: " + filter)  
       if(filter){
-        if(data[i]?.fields.Category == filter){
-          menuItemList.push(cartItems && <MenuItem key ={i} data = {data[i]?.fields} /> )
+        if(menuData[i].category == filter){
+          menuItemList.push(cartItems && <MenuItem key ={i} data = {menuData[i]} /> )
         } 
       } else {
-    menuItemList.push(<MenuItem key ={i} data = {data[i]?.fields} />)
+    menuItemList.push(<MenuItem key ={i} data = {menuData[i]} />)
 
       }
 
@@ -42,11 +44,11 @@ const renderMenuItems = useCallback(() => {
   }
   return menuItemList
 
-}, [data, filter])
+}, [menuData, filter])
 
 useEffect(() => {
   renderMenuItems()
-}, [data, renderMenuItems])
+}, [menuData, renderMenuItems])
 
 
 
@@ -64,10 +66,10 @@ const filterOptions = ['Wings', 'Quesadillas', 'Topping', 'Wraps', 'Specialties'
           )
         })}
         {/* <li className='Wings' ><button onClick={() => getDefaultCart()}>getDefaultCart</button></li> */}
-        {/* <li className='Wings' ><button onClick={() => console.log(cartItems)}>cartItems</button></li> */}
+        <li className='Wings' ><button onClick={() => console.log(cartItems)}>cartItems</button></li>
         <li className='createOrderBtn' ><button onClick={() => {
 
-          postOrder(buildOrderData(data, orderCount, noteValue))
+          postOrder(buildOrderData(menuData, orderNum, noteValue))
           setNoteRender(false);
           setNoteValue(null)
           
@@ -76,7 +78,7 @@ const filterOptions = ['Wings', 'Quesadillas', 'Topping', 'Wraps', 'Specialties'
           </li>
       </ul>
       <div className='menuItemContainer'>
-       {cartItems && renderMenuItems()}
+       {menuData && renderMenuItems()}
       </div>
 
     </div>

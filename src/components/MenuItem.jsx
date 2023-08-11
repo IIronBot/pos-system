@@ -6,9 +6,12 @@ import { useContext, useEffect, useState } from "react"
 export const MenuItem = (prop) => {
   const [inputValue, setInputValue] = useState(0)
   const {cartItems, updateCart, addToCart, removeFromCart} = useContext(menuContext)
-  const {Name, Price, id} = prop.data
+  const {name, price, id} = prop.data
   
-  
+  useEffect(() => {
+    if(!prop) return 
+    // console.log("prop " + name)
+  }, [])
   // useEffect(() => {
   //   updateCart(inputValue, id)
 
@@ -21,8 +24,8 @@ export const MenuItem = (prop) => {
       <div className="menuItemParent">
 
     <div className="menuItem">
-        <p className="menuItemName">{Name}</p>
-        <p>${Price}{Price > 1 && '.00'}</p>
+        <p className="menuItemName">{name}</p>
+        <p>${price}{price > 1 && '.00'}</p>
         {/* <p>{Count}</p> */}
         <button onClick={() => {
           removeFromCart(id)

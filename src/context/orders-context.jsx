@@ -3,135 +3,95 @@ import { orderContext } from "./exportContext";
 import { menuContext } from "./exportContext";
 import ordersound from '../assets/ordersound.mp3';
 
-const playSound = (sound) => {
+import { db } from "../firebase-config,js";
+import { setDoc, deleteDoc } from "firebase/firestore";
+import {collection, getDocs, updateDoc, doc} from 'firebase/firestore';
+
+const playSound = () => {
   new Audio(ordersound).play();
 
 }
-const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_ORDERS_TABLE_ID}`
-const headers = {
-    "Authorization": `Bearer ${import.meta.env.VITE_PERS_TOKEN}`,
-    'Content-Type': 'application/json',
-}
 
 export function OrderContextProvider(props) {
-  const [orderCount, setOrderCount] = useState();
+  const [orderNum, setOrderNum] = useState();
   const [isOrderLoading, setIsOrderLoading] = useState(false)
   const [ noteValue, setNoteValue ] = useState(null)
   const [status, setStatus] = useState('')
+  const ordersRef = collection(db, 'Current Orders')
 
-    const {cartItems, setCartItems, getDefaultCart, base} = useContext(menuContext)
-  const [orders, setOrders] = useState('')
+  const {cartItems, setCartItems, getDefaultCart,} = useContext(menuContext)
+  const [orders, setOrders] = useState(null)
 
-
-  const fetchOrders = () => {
-    base('Current Orders').select({
-      view: "Grid view",
-      fields: ['OrderNum', 'id', 'Status', 'Notes']
-    }).eachPage(function page(records, fetchNextPage){
-      records.forEach(function(record, index) {
-        records[index] = record
-        
-      })
-      setOrders(records)
-      setOrderCount(records.length);
-
-    })
-  }
+  const fetchOrders = async () => {
+    const orderDocs = await getDocs(ordersRef)
+    const unsortedOrders = orderDocs.docs.map((doc) => ({...doc.data(), id: doc.id}))
+      setOrders(unsortedOrders.sort((a,b) => a.ordernum - b.ordernum ))
+      setOrderNum(orderDocs.docs.length);
+      console.log('orderdocslength: ' + orderDocs.docs.length)
+    }
 
 
-    const buildOrderData =  (data, orderCount, noteValue) => {
+
+    const buildOrderData = (data, orderNum, noteValue) => {
         setIsOrderLoading(true);
-        let rawCartItems = []
+        let orderedItems = []
         let idList = ''
         for(let i = 0; i < Object.keys(cartItems).length; i++) {
 
             if(cartItems[i] > 0) {
-              rawCartItems.push(data[i].fields)
+              console.log('i ' + i)
+              console.log(data[i])
+              orderedItems.push(data[i])
             }
 
         }
 
-        rawCartItems.map((item) => {
-          idList += `${item.id}:${cartItems[item.id]},`
+
+        orderedItems.map((item) => {
+          // console.log(data[item.id])
+          // console.log(item)
+
+          idList += `${cartItems[item.id]}:${data[item.id].id},`
         })
 
 
         const temp = {
-          "fields": {
             
-            'id': idList,
-            'Status': 'Not Started',
-            'Notes': noteValue
-          }
+            'ids': idList,
+            'status': 'Not Started',
+            'notes': noteValue,
+            'ordernum': orderNum,
         };
 
-        let final = {
-            "records": [temp]
-        }
-        setOrderCount(orderCount + 1)
+        setOrderNum(orderNum + 1)
         setCartItems(getDefaultCart())
-        console.log(final)
-        return final
+        console.log(temp)
+        return temp
 
     }
 
 
-    const postOrder = (order) => {
-        fetch(url, {
-            method: 'POST',
-            headers: headers,
-            typecast: true,
-            body: JSON.stringify(order)
-          })
-            .then(response => response.json())
-            .then(data => {
-              setIsOrderLoading(false)
-              playSound(ordersound)
-              console.log(data);
-            })
-            .catch(error => {
-              console.error('Error:', error);
-            });
+    const postOrder = async (order) => {
+      const docRef = doc(db, 'Current Orders', orderNum.toString())
+        await setDoc(docRef, order)
     }
 
-
-    const updateOrderStatus = (orderRecordId, newStatus) => {
-      setIsOrderLoading(true)
-    const statusUpdateUrl = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_ORDERS_TABLE_ID}/${orderRecordId}`
-      fetch(statusUpdateUrl,  {
-        method: 'PATCH',
-        headers: headers,
-        typecast: true,
-        body: JSON.stringify({
-            'fields': {
-              'Status': newStatus
-            }
-          }
-        )
-      } 
-        ).then((res) => res.json()).then((data) => {
-          console.log(data)
-      setIsOrderLoading(true)
-    })
+    const updateOrderStatus = async (orderNum, newStatus) => {
+      const statusRef = doc(db, 'Current Orders', orderNum)
+      await updateDoc(statusRef, {status: newStatus})
     }
 
-    const deleteOrder = (orderRecordId) => {
-    const deleteOrderUrl = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_ORDERS_TABLE_ID}/${orderRecordId}`
-
-      fetch(deleteOrderUrl,  {
-        method: 'DELETE',
-        headers: headers,
-        typecast: true,
-      } 
-        ).then((res) => res.json()).then((data) => console.log(data?.deleted))
+    const deleteOrder = async (ordernum) => {
+      await deleteDoc(doc(db, 'Current Orders', ordernum)).then(() => console.log('deleted'))
     }
+
     const contextValue = {
         postOrder,
         orders,
         setOrders,
         buildOrderData,
-        orderCount,
-        setOrderCount,
+        orderNum,
+        setOrderNum,
         fetchOrders,
         isOrderLoading,
         setIsOrderLoading,

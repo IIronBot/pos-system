@@ -2,18 +2,19 @@ import { useState, useEffect, useContext, useRef} from 'react'
 import { orderContext } from '../context/exportContext';
 import './Order.css'
 const statusOptions = ['Not Started', 'Cooking', 'Ready To Serve', 'Complete']
+
 export function Order(prop) {
-  const orderData = prop.data[0];
-  const editedData = (orderData.fields.id).split(',')
+  const localOrderData = (prop.data)[0];
+  const localMenuData = (prop.data)[1];
+
+  const orderItemInfo = localOrderData.ids.split(',')
   const [orderValue, setOrderValue] = useState('');
   
   const [renderstatus, setRenderStatus] = useState(false)
   const { updateOrderStatus, status, deleteOrder } = useContext(orderContext)
-  const [orderCount, setOrderCount] = useState(null)
-  const [localStatus, setLocalStatus] = useState(orderData.fields.Status)
-  var data = prop.data[1];
+  const [localStatus, setLocalStatus] = useState(localOrderData?.status)
 
-
+  
   const statusRef = useRef(null)
   let statusElement = statusRef.current;
 
@@ -27,63 +28,67 @@ export function Order(prop) {
   }
 
 
-  //update status in database when status is changed
+
+
+// adds items totals
   useEffect(() => {
-
-      updateOrderStatus(orderData.id, localStatus)
-    if(statusElement) {
-      statusElement.classList.remove('active')
-
-    }
-      setRenderStatus(false)
-      setRenderStatus(true)
-
-  }, [localStatus])
-
-//adds items totals
-  useEffect(() => {
+    if(!localOrderData || !localMenuData) return
     var tempVal = 0;
-    if(data) {
-      editedData.map((item) => {
-        var id = item.split(':')[0];
+      (orderItemInfo).map((orderItemIds) => {
+        var orderItemId= orderItemIds.split(':')[1]
 
-        if(data[id])
-        tempVal += (data[id]).fields.Price
+
+        if(localMenuData[orderItemId])
+        tempVal += (localMenuData[orderItemId]).price
 
       })
       setOrderValue(tempVal)
- }
+
  
- }, [data])
+ }, [localOrderData])
 
 //sets Status when component renders
  useEffect(() => {
-  if(data[editedData[0].split(':')[0]]) {
     if(!status) {
       setRenderStatus(true)
     }
-    setOrderCount(orderData.fields.OrderNum)
-  }
- }, [editedData])
+    setLocalStatus(localOrderData?.status)
 
+ }, [localOrderData])
+
+    // update status in database when status is changed
+    useEffect(() => {
+
+      if(!localStatus || !localOrderData.ordernum ) return;
+      // console.log('updating')
+
+        updateOrderStatus(localOrderData.id, localStatus)
+      if(!statusElement) return
+        statusElement.classList.remove('active')
   
+    }, [localStatus])
+    
   return (
     
     <div className='order'>
       <div className='notes'>
       <p>Notes</p>
-      {orderData.fields.Notes ? orderData.fields.Notes : <p>__________</p>}
+      {localOrderData?.notes ? localOrderData?.notes : <p>__________</p>}
       </div>
       <div className ='foodItems'>
-        <p>Order Number: {editedData && orderCount}</p>
-      {editedData && editedData.map((item, index) => {
-                var count = item.split(':')[1];
-                var id = item.split(':')[0];
+        <p>Order Number: {localOrderData && localOrderData.ordernum}</p>
+      {localOrderData && orderItemInfo.map((orderItemIds, index) => {
+
+        if(orderItemIds === undefined) return;
+        var count = orderItemIds.split(':')[0]
+        var orderItemId= orderItemIds.split(':')[1]
+
+
         try{
 
           return (
             <div key ={index} className='orderItem'>
-            <p>{`(${count})` } {((data[id]).fields.Name)} </p>            
+            <p>{`(${count})` } {(localMenuData[orderItemId].name)} </p>            
             </div>
 
             )
@@ -108,7 +113,7 @@ export function Order(prop) {
           }) }
           </ul>
       </div>
-      <p className='X' onClick={() => deleteOrder()}>X</p>
+      <p className='X' onClick={() => deleteOrder(localOrderData.ordernum.toString())}>X</p>
 
     </div>
   )

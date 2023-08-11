@@ -10,20 +10,19 @@ function App() {
 
   return (
     <>
-    <MenuContextProvider>
-      <OrderContextProvider>
-        <Router>
-          <Routes>
-            <Route path='/' element = {<JobChoice />} />
-            <Route path='/cashier' element = {<Cashier />} /> 
-            <Route path ='/order' element = {<CreateOrder />}/> 
-            <Route path ='/cook' element = {<Cook />}/>
+      <MenuContextProvider>
+        <OrderContextProvider>
+          <Router>
+            <Routes>
+              <Route path='/' element = {<JobChoice />} />
+              <Route path='/cashier' element = {<Cashier />} /> 
+              <Route path ='/order' element = {<CreateOrder />}/> 
+              <Route path ='/cook' element = {<Cook />}/>
 
-          </Routes>
-        </Router>
-      </OrderContextProvider>
-
-    </MenuContextProvider>
+            </Routes>
+          </Router>
+        </OrderContextProvider>
+      </MenuContextProvider>
     </>
   )
 }

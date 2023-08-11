@@ -6,15 +6,13 @@ import './OrdersBlock.css'
 function OrdersBlock() {
   const [render, setRender] = useState(false)
   const {orders} = useContext(orderContext)
-  const {data} = useContext(menuContext)
+  const {menuData} = useContext(menuContext)
 
 
   useEffect(() => {
-    if(data) {
-      if(orders) {
-        setRender(true)
-      }}
-  }, [data, orders])
+    if(!orders || !menuData) return
+      setRender(true)
+  }, [orders, menuData])
 
   return (
     <div className='ordersBlockParent'>
@@ -24,7 +22,7 @@ function OrdersBlock() {
           {render && orders.map((item, index) => {
             return(
               <li key ={index}>
-                <Order  data ={[orders[index], data]} />
+                <Order  data ={[item, menuData]} />
 
               </li>
 
