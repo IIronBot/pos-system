@@ -4,7 +4,7 @@ import { menuContext } from "./exportContext";
 import ordersound from '../assets/ordersound.mp3';
 
 import { db } from "../firebase-config,js";
-import { setDoc, deleteDoc } from "firebase/firestore";
+import { setDoc, deleteDoc, onSnapshot } from "firebase/firestore";
 import {collection, getDocs, updateDoc, doc} from 'firebase/firestore';
 
 const playSound = () => {
@@ -26,11 +26,22 @@ export function OrderContextProvider(props) {
     const orderDocs = await getDocs(ordersRef)
     const unsortedOrders = orderDocs.docs.map((doc) => ({...doc.data(), id: doc.id}))
       setOrders(unsortedOrders.sort((a,b) => a.ordernum - b.ordernum ))
-      setOrderNum(orderDocs.docs.length);
+      setOrderNum(orderDocs.docs.length + 1);
       console.log('orderdocslength: ' + orderDocs.docs.length)
     }
 
+    useEffect(() => {
+      // Set up an onSnapshot listener and store the unsubscribe function
+      const unsubscribe = onSnapshot(collection(db, 'Current Orders'), (snapshot) => {
+        const updatedOrders = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+        setOrders(updatedOrders.sort((a, b) => a.ordernum - b.ordernum));
+      });
 
+      return () => {
+        unsubscribe();
+      };
+    }, []);
+    
 
     const buildOrderData = (data, orderNum, noteValue) => {
         setIsOrderLoading(true);

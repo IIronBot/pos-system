@@ -8,18 +8,11 @@ export const MenuItem = (prop) => {
   const {cartItems, updateCart, addToCart, removeFromCart} = useContext(menuContext)
   const {name, price, id} = prop.data
   
+
   useEffect(() => {
-    if(!prop) return 
-    // console.log("prop " + name)
-  }, [])
-  // useEffect(() => {
-  //   updateCart(inputValue, id)
+    updateCart(inputValue, id)
 
-  // },[inputValue])
-
-   
-  // console.log("Price:" + Price);
-  // console.log(cartItems)
+  },[inputValue])
     return (
       <div className="menuItemParent">
 

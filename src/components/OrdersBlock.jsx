@@ -20,6 +20,7 @@ function OrdersBlock() {
         <div>
         <ul className='ordersBlock'>
           {render && orders.map((item, index) => {
+            if(item.status == 'Complete') return
             return(
               <li key ={index}>
                 <Order  data ={[item, menuData]} />

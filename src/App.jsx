@@ -6,6 +6,7 @@ import { MenuContextProvider } from './context/menu-context.jsx'
 import { OrderContextProvider } from './context/orders-context'
 import { CreateOrder } from './pages/CreateOrder'
 import Cook from './pages/Cook'
+import Buser from './pages/Buser'
 function App() {
 
   return (
@@ -18,6 +19,8 @@ function App() {
               <Route path='/cashier' element = {<Cashier />} /> 
               <Route path ='/order' element = {<CreateOrder />}/> 
               <Route path ='/cook' element = {<Cook />}/>
+              <Route path ='/buser' element = {<Buser />}/>
+
 
             </Routes>
           </Router>

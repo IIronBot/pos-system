@@ -16,6 +16,7 @@ export function Order(prop) {
 
   
   const statusRef = useRef(null)
+  const orderRef = useRef(null)
   let statusElement = statusRef.current;
 
   const addClass = () => {
@@ -28,7 +29,10 @@ export function Order(prop) {
   }
 
 
+useEffect(() => {
+console.log('mounted')
 
+}, [])
 
 // adds items totals
   useEffect(() => {
@@ -60,17 +64,24 @@ export function Order(prop) {
     useEffect(() => {
 
       if(!localStatus || !localOrderData.ordernum ) return;
-      // console.log('updating')
 
         updateOrderStatus(localOrderData.id, localStatus)
+      if(localStatus == 'Complete' && orderRef.current !== undefined){
+        orderRef.current.classList.add('slideout')
+        setTimeout(() => {
+          orderRef.current?.classList.remove('slideout')
+          orderRef.current?.classList.add('clear')
+        console.log('clear')
+        }, 1000)
+      }
       if(!statusElement) return
         statusElement.classList.remove('active')
   
-    }, [localStatus])
+    }, [localStatus, orderRef])
     
   return (
     
-    <div className='order'>
+    <div className='order' ref = {orderRef}>
       <div className='notes'>
       <p>Notes</p>
       {localOrderData?.notes ? localOrderData?.notes : <p>__________</p>}

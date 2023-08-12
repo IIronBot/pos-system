@@ -11,6 +11,15 @@
     border: white solid 1px;
     display: flex;
     padding: 20px 10px 20px 10px;
+    transition: all 1s ease;
+}
+
+.order.slideout {
+    transform: translateY(-1000px);
+    height: 1px;
+}
+.order.clear {
+    display: none;
 }
 .order div {
     width: 33%;
