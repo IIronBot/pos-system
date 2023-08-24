@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react'
-import Airtable from 'airtable'
 import { menuContext } from './exportContext';
 import { db } from "../firebase-config,js";
 import {collection, getDocs} from 'firebase/firestore';
-
-const base = new Airtable({apiKey: 'keyJR9DzhDs8ARtft'}).base('app8oEp5f2hwX1CkP');
-
 
 const getDefaultCart = () => {
   let cart = {}
@@ -53,7 +49,6 @@ export function MenuContextProvider(props) {
   const contextvalue = {
     menuData,
     setMenuData,
-    base,
     setCartItems,
     cartItems,
     addToCart,

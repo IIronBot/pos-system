@@ -1,0 +1,8 @@
+{
+  "appId": "com.example.app",
+  "appName": "vite-app",
+  "webDir": "dist",
+  "server": {
+    "url": "https://10.0.0.82:5173"
+  }
+}

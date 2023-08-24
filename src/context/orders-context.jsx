@@ -9,7 +9,6 @@ import {collection, getDocs, updateDoc, doc} from 'firebase/firestore';
 
 const playSound = () => {
   new Audio(ordersound).play();
-
 }
 
 export function OrderContextProvider(props) {
@@ -30,8 +29,9 @@ export function OrderContextProvider(props) {
       console.log('orderdocslength: ' + orderDocs.docs.length)
     }
 
+    //listen for changes to data when context mounts
     useEffect(() => {
-      // Set up an onSnapshot listener and store the unsubscribe function
+      // When you call onSnapshot, it returns an unsubscribe function that you can use to stop listening to changes.
       const unsubscribe = onSnapshot(collection(db, 'Current Orders'), (snapshot) => {
         const updatedOrders = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
         setOrders(updatedOrders.sort((a, b) => a.ordernum - b.ordernum));
@@ -59,12 +59,8 @@ export function OrderContextProvider(props) {
 
 
         orderedItems.map((item) => {
-          // console.log(data[item.id])
-          // console.log(item)
-
           idList += `${cartItems[item.id]}:${data[item.id].id},`
         })
-
 
         const temp = {
             
@@ -85,6 +81,7 @@ export function OrderContextProvider(props) {
     const postOrder = async (order) => {
       const docRef = doc(db, 'Current Orders', orderNum.toString())
         await setDoc(docRef, order)
+        playSound()
     }
 
     const updateOrderStatus = async (orderNum, newStatus) => {

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { BackArrow } from '../components/backArrow'
 import './Cashier.css'
 import { orderContext } from '../context/exportContext'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import OrdersBlock from '../components/OrdersBlock'
 import Loading from '../components/Loading'
 export const Cashier = () => {

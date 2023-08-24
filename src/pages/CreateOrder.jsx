@@ -28,8 +28,6 @@ const renderMenuItems = useCallback(() => {
     menuItemList = []
     if(!menuData) return
     for(let i = 0; i < menuData.length; i++) {
-      // console.log(data[i]?.fields.Category)
-      // console.log("filter: " + filter)  
       if(filter){
         if(menuData[i].category == filter){
           menuItemList.push(cartItems && <MenuItem key ={i} data = {menuData[i]} /> )
@@ -53,7 +51,7 @@ useEffect(() => {
 
 
 
-const filterOptions = ['Wings', 'Quesadillas', 'Topping', 'Wraps', 'Specialties', 'Sandwiches' ]
+const filterOptions = ['Wings', 'Quesadillas', 'Topping', 'Wraps', 'Specialties', 'Sandwiches']
   return (
     <div className='createOrderPage'>
       <h1>Create Order</h1>
@@ -66,7 +64,9 @@ const filterOptions = ['Wings', 'Quesadillas', 'Topping', 'Wraps', 'Specialties'
           )
         })}
         {/* <li className='Wings' ><button onClick={() => getDefaultCart()}>getDefaultCart</button></li> */}
-        <li className='Wings' ><button onClick={() => console.log(cartItems)}>cartItems</button></li>
+        {/* <li ><button onClick={() => console.log(cartItems)}>cartItems</button></li> */}
+        <li ><button onClick={() => setFilter(undefined)}>All</button></li>
+
         <li className='createOrderBtn' ><button onClick={() => {
 
           postOrder(buildOrderData(menuData, orderNum, noteValue))
