@@ -25,7 +25,7 @@ export function OrderContextProvider(props) {
     const orderDocs = await getDocs(ordersRef)
     const unsortedOrders = orderDocs.docs.map((doc) => ({...doc.data(), id: doc.id}))
       setOrders(unsortedOrders.sort((a,b) => a.ordernum - b.ordernum ))
-      setOrderNum(orderDocs.docs.length + 1);
+      setOrderNum(orderDocs.docs.length + 2);
       console.log('orderdocslength: ' + orderDocs.docs.length)
     }
 
