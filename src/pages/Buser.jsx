@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { BackArrow } from '../components/backArrow';
+import { BackArrow } from '../components/BackArrow';
 import './Buser.css';
 import { DraggableTable } from './DraggableTable';
 function Buser() {

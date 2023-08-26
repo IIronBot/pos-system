@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { BackArrow } from '../components/backArrow'
+import { BackArrow } from '../components/BackArrow.jsx'
 import './Cashier.css'
 import { orderContext } from '../context/exportContext'
 import { useContext, useEffect } from 'react'

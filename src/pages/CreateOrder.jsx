@@ -4,7 +4,7 @@ import { MenuItem } from '../components/MenuItem';
 import { menuContext } from '../context/exportContext';
 import { orderContext } from '../context/exportContext';
 import './CreateOrder.css'
-import { BackArrow } from '../components/backArrow';
+import { BackArrow } from '../components/BackArrow';
 import { NoteEditor } from '../components/NoteEditor';
 
 export const CreateOrder = () => {
