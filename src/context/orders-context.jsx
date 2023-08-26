@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { orderContext } from "./exportContext";
 import { menuContext } from "./exportContext";
 import ordersound from '../assets/ordersound.mp3';

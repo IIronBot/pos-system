@@ -1,3 +1,4 @@
+import React from 'react';
 import {useContext, useEffect} from 'react'
 import { menuContext, orderContext } from '../context/exportContext'
 import OrdersBlock from '../components/OrdersBlock'

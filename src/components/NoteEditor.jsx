@@ -1,11 +1,12 @@
-import { useContext, useEffect, useRef } from 'react'
-import './NoteEditor.css'
-import { Note } from 'phosphor-react'
+import React from 'react';
+import { useContext, useEffect, useRef } from 'react';
+import './NoteEditor.css';
+import { Note } from 'phosphor-react';
 import { orderContext } from '../context/exportContext';
 import { menuContext } from '../context/exportContext';
 
 export function NoteEditor() {
-const noteRef = useRef(null);
+const noteRef = useRef('');
 const {noteValue, setNoteValue} = useContext(orderContext)
 const {noteRender, setNoteRender} = useContext(menuContext)
 

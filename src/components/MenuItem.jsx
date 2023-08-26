@@ -1,4 +1,4 @@
-// import { base } from '../context/menu-context'
+import React from 'react';
 import "./menuItem.css"
 import { menuContext } from "../context/exportContext"
 import { useContext, useEffect, useState } from "react"
